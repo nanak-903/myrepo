@@ -1,0 +1,37 @@
+
+PLAY [Configure OPS445 Linux VM] ***********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [managed]
+
+TASK [Update apache to latest version] *****************************************
+ok: [managed]
+
+TASK [Remove tree package] *****************************************************
+changed: [managed]
+
+TASK [Set hostname to Seneca ID] ***********************************************
+ok: [managed]
+
+TASK [Create new sudo user] ****************************************************
+ok: [managed]
+
+TASK [Setup passwordless sudo for new user] ************************************
+ok: [managed]
+
+TASK [Add authorized SSH key for new user] *************************************
+ok: [managed]
+
+TASK [Create lab directories] **************************************************
+ok: [managed] => (item=1)
+ok: [managed] => (item=2)
+ok: [managed] => (item=3)
+ok: [managed] => (item=4)
+ok: [managed] => (item=5)
+ok: [managed] => (item=6)
+ok: [managed] => (item=7)
+ok: [managed] => (item=8)
+
+PLAY RECAP *********************************************************************
+managed                    : ok=8    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
