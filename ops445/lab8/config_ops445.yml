@@ -1,0 +1,49 @@
+---
+- name: Configure OPS445 Linux VM
+  hosts: ops445
+  become: yes
+  vars:
+    seneca_id: ndspabla
+  tasks:
+    - name: Update apache to latest version
+      apt:
+        name: apache2
+        state: latest
+        update_cache: yes
+
+    - name: Remove tree package
+      apt:
+        name: tree
+        state: absent
+
+    - name: Set hostname to Seneca ID
+      hostname:
+        name: "{{ seneca_id }}"
+
+    - name: Create new sudo user
+      user:
+        name: "{{ seneca_id }}"
+        groups: sudo
+        append: yes
+        create_home: yes
+        shell: /bin/bash
+
+    - name: Setup passwordless sudo for new user
+      copy:
+        dest: /etc/sudoers.d/{{ seneca_id }}
+        content: "{{ seneca_id }} ALL=(ALL) NOPASSWD:ALL"
+        mode: '0440'
+
+    - name: Add authorized SSH key for new user
+      authorized_key:
+        user: "{{ seneca_id }}"
+        key: "{{ lookup('file', '/home/nanak/.ssh/id_rsa.pub') }}"
+
+    - name: Create lab directories
+      file:
+        path: "/home/{{ seneca_id }}/ops445/lab{{ item }}"
+        state: directory
+        owner: "{{ seneca_id }}"
+        group: "{{ seneca_id }}"
+        mode: '0755'
+      loop: "{{ range(1, 9) | list }}"
