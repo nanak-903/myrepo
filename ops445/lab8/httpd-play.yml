@@ -1,0 +1,17 @@
+---
+- hosts: ops445
+  become: yes
+  vars:
+    apache_version: 2.6
+    motd_warning: "WARNING: used by ICT faculty/students only.\n"
+  tasks:
+    - name: install apache
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+
+    - name: restart apache
+      service:
+        name: apache2
+        state: restarted

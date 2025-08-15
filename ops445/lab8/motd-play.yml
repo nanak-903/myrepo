@@ -1,0 +1,11 @@
+---
+- name: update motd file
+  hosts: ops445
+  become: yes
+  vars:
+    motd_warning: "WARNING: used by ICT faculty/students only.\n"
+  tasks:
+    - name: setup a MOTD
+      copy:
+        dest: /etc/motd
+        content: "{{ motd_warning }}"
